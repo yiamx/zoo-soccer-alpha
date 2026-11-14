@@ -20,7 +20,7 @@ table{border-collapse:collapse;width:100%}td,th{padding:3px 5px;text-align:cente
 .log{max-height:160px;overflow:auto}.log p{margin:2px 0;border-bottom:1px solid var(--line)}
 canvas{width:100%;border-radius:10px;border:3px solid #f6f6ee;background:#2f7d46}
 .tag{display:inline-block;padding:0 6px;border-radius:6px;background:var(--bg);border:1px solid var(--line);margin:1px;font-size:.82rem}
-.big{font:700 2rem Kanit,sans-serif;text-align:center}
+.big{font:700 2rem Kanit,sans-serif;text-align:center}.upb{display:inline-block;min-width:24px;text-align:center;border-radius:6px;background:var(--ok);color:#fff;font-weight:700;padding:0 7px;margin-left:4px}
 </style></head><body><main>
 <h1>Zoo Soccer 🦁⚽</h1><div id="res" class="mute s"></div><div id="nav" class="row" style="margin:8px 0"></div><div id="app"></div>
 </main><script>
@@ -211,19 +211,19 @@ function newLeague(div,season,Pt){var teams=[Pt].concat(AIN.map(function(n){retu
  return{div:div,season:season,round:0,teams:teams,rounds:rd,tb:teams.map(function(t){return{P:0,W:0,D:0,L:0,GF:0,GA:0,Pts:0}})}}
 function newGame(){var Pt={n:"สวนสัตว์ของฉัน",an:[22,21,3,12,5,23,25,47,33].map(function(i){return mk(i)}),lu:[0,1,2,3,4,5,6],fm:"2-3-1",press:1,style:1,items:[0,1,3]};
  G={saveVersion:CURRENT_SAVE_VERSION,lastSeen:APP_VER,coins:100,sp:3,tr:3,qc:10,tk:0,fd:[],b:[0,0,0,0],msg:"ยินดีต้อนรับ! เริ่มจากดิวิชัน 3 ลองจัดทีม ฝึกสัตว์ แล้วเตะนัดแรกได้เลย",L:newLeague(3,1,Pt)}}
-var CURRENT_SAVE_VERSION=3,APP_VER="0.4";
+var CURRENT_SAVE_VERSION=3,APP_VER="0.5";
 /* วิธีเพิ่มเวอร์ชันเซฟในอนาคต: 1) เขียน migrateV3toV4(d) 2) ใส่ใน MIG ว่า 3:migrateV3toV4 3) เพิ่ม CURRENT_SAVE_VERSION
    กติกา: สัตว์ใหม่เติมท้าย SID ได้อย่างเดียว (อย่าสลับลำดับ/ลบ) ทักษะใหม่เติมท้าย TR ได้อย่างเดียว
    ฟิลด์ใหม่ของสัตว์ให้ใส่ใน mk() แล้ว repair() จะเติมค่าเริ่มต้นให้เซฟเก่าเอง */
 var SID="lion,elephant,giraffe,zebra,rhino,hippo,hyena,cheetah,tiger,panda,komodo,asianwolf,monkey,cobra,redpanda,crane,fox,greywolf,brownbear,deer,badger,hedgehog,rabbit,owl,bison,raccoon,beaver,baldeagle,cougar,moose,coyote,skunk,jaguar,capybara,llama,toucan,anaconda,sloth,anteater,otter,kangaroo,koala,wombat,emu,devil,platypus,dingo,quokka".split(",");
 var LEGSP="lion,elephant,zebra,giraffe,tiger,monkey,bison,rabbit,greywolf,fox,owl,dingo,brownbear,baldeagle,quokka,hedgehog,komodo,sloth,kangaroo,koala".split(","),LEGT=[0,1,2,3,4,5,6,7,8,12,16,24,22,37,33,46,47,56,55,63,71];
-var CHANGES=[["0.4",["ระบบความฟิตต่อเนื่องและลูกศรสภาพ ⬆⬆ ⬆ ➡ ⬇ ⬇⬇","สัตว์ 48 ชนิด ทวีปละ 8 ตัว","ทักษะประจำทวีป 60 อัน ฝึกให้เก่งขึ้นได้สูงสุด 3 ดาว","ระบบเซฟแบบมีเวอร์ชัน อัปเดตเกมแล้วเซฟเก่าไม่หาย","ส่งออก/นำเข้าเซฟ","การ์ดซิมเร็วและตั๋วซิมทั้งฤดูกาล"]]];
+var CHANGES=[["0.5",["จบฤดูกาลทีมฟิต 100% ฟอร์มและสภาพกลับเป็นปกติ","รางวัลจบฤดูกาล: แมวมองฟรี 5 ครั้ง","แตะชื่อทีมในตารางลีกเพื่อดูผู้เล่นของทีมอื่น"]],["0.4",["ระบบความฟิตต่อเนื่องและลูกศรสภาพ ⬆⬆ ⬆ ➡ ⬇ ⬇⬇","สัตว์ 48 ชนิด ทวีปละ 8 ตัว","ทักษะประจำทวีป 60 อัน ฝึกให้เก่งขึ้นได้สูงสุด 3 ดาว","ระบบเซฟแบบมีเวอร์ชัน อัปเดตเกมแล้วเซฟเก่าไม่หาย","ส่งออก/นำเข้าเซฟ","การ์ดซิมเร็วและตั๋วซิมทั้งฤดูกาล"]]];
 function eachAn(d,f){d.L.teams.forEach(function(t){t.an.forEach(f)})}
 function migrateV1toV2(d){eachAn(d,function(a){var i=SID.indexOf(LEGSP[a.sp]);a.sp=i>=0?i:0;a.tr=(a.tr||[]).map(function(t){return LEGT[t]!=null?LEGT[t]:t});(a.th||[]).forEach(function(x){if(x.t>=0&&LEGT[x.t]!=null)x.t=LEGT[x.t]})})}
 function migrateV2toV3(d){eachAn(d,function(a){a.sid=SID[a.sp]});d.lastSeen=d.lastSeen||""}
 var MIG={1:migrateV1toV2,2:migrateV2toV3};
 function fixSp(d){eachAn(d,function(a){var i=SID.indexOf(a.sid);if(i>=0)a.sp=i;else if(!(a.sp>=0&&a.sp<SP.length))a.sp=0;a.sid=SID[a.sp]})}
-function repair(d){d.coins=+d.coins||0;d.sp=+d.sp||0;d.tr=+d.tr||0;d.qc=d.qc==null?10:d.qc;d.tk=d.tk||0;d.fd=d.fd||[];d.td=d.td||0;d.msg=d.msg||"";
+function repair(d){d.coins=+d.coins||0;d.sp=+d.sp||0;d.tr=+d.tr||0;d.qc=d.qc==null?10:d.qc;d.tk=d.tk||0;d.fd=d.fd||[];d.td=d.td||0;d.fs=d.fs||0;d.msg=d.msg||"";
  var b=d.b||[];while(b.length<4)b.push(0);d.b=b.slice(0,4);
  d.L.teams.forEach(function(t,ti){var df=mk(0);t.an.forEach(function(a){for(var k in df)if(a[k]==null)a[k]=JSON.parse(JSON.stringify(df[k]));
   a.tr=(a.tr&&a.tr.length?a.tr:[SP[a.sp].t]).filter(function(x,i,r){return x>=0&&x<TR.length&&r.indexOf(x)==i}).slice(0,3);a.tq=a.tq||{};a.th=a.th||[];a.eq=a.eq||{};["t","sh","pa","so"].forEach(function(k){if(a.eq[k]==null)a.eq[k]=-1})});
@@ -248,6 +248,12 @@ function doImport(){var t=$("sv").value;if(t.trim()&&confirm("นำเข้า
 function vSave(){return'<div class="card"><h2>เซฟเกม</h2><p class="s mute">บันทึกอัตโนมัติหลังแข่ง ฝึก แมวมอง อัปเกรด และจบฤดูกาล (เซฟ v'+G.saveVersion+' เกม v'+APP_VER+')</p><textarea id="sv" rows="4" style="width:100%;font:12px monospace;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:8px" placeholder="ข้อความเซฟ / วางข้อความเซฟที่จะนำเข้าที่นี่"></textarea><div class="row" style="margin-top:6px"><button onclick="doExport()">ส่งออกเซฟ</button><button class="g" onclick="doImport()">นำเข้าเซฟ</button><button class="g" onclick="showLog(1)">ดูรายการอัปเดต</button></div></div>'}
 function showLog(force){if(!force&&G.lastSeen==APP_VER)return;if($("lgo"))return;var o=document.createElement("div");o.id="lgo";o.style.cssText="position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:50;padding:16px";
  o.innerHTML='<div class="card" style="max-width:420px;max-height:80vh;overflow:auto">'+CHANGES.map(function(c){return"<h2>Zoo Soccer v"+c[0]+"</h2><p class=\"s mute\">ใหม่:</p><ul>"+c[1].map(function(x){return"<li>"+x+"</li>"}).join("")+"</ul>"}).join("")+'<button onclick="closeLog()">ตกลง</button></div>';document.body.appendChild(o)}
+var TV=0;
+function tv(i){TV=i;V="tv";window.scrollTo(0,0);rd()}
+function bk(){V="lg";rd()}
+function vTv(){var L=G.L,T=L.teams[TV],t=L.tb[TV],role={},RN={GK:"ผู้รักษาประตู",DF:"กองหลัง",MF:"กองกลาง",FW:"กองหน้า"};roles(T).forEach(function(r){role[T.an.indexOf(r.a)]=RN[r.r]});
+ var sy=syn(T),row=function(i){var a=T.an[i],s=SP[a.sp];return'<div style="padding:6px 0;border-bottom:1px solid var(--line)"><b>'+s.e+" "+s.n+"</b> Lv"+a.lv+" "+(role[i]?"["+role[i]+"] ":"")+'<span class="s mute">'+rar(a)+(s.r?" ธรรมชาติ":"")+" | ฟิต "+Math.round(a.st)+"% "+CA[cond(a)+2]+(a.inj?" 🤕":"")+'</span><div class="s">เตะ/ความเร็ว '+stt(a,"p")+" | แรง "+stt(a,"s")+" | ทักษะ "+stt(a,"k")+" | ป้องกัน "+stt(a,"g")+'</div><div>'+a.tr.map(function(x){return'<span class="tag" title="'+TR[x].d+'">'+TR[x].n+(a.tq&&a.tq[x]?" "+"★".repeat(1+a.tq[x]):"")+"</span>"}).join("")+"</div></div>"};
+ return'<div class="card"><button class="g" onclick="bk()">กลับไปตารางลีก</button><h2 style="margin-top:8px">'+T.n+'</h2><p class="s mute">แข่ง '+t.P+' ชนะ '+t.W+' เสมอ '+t.D+' แพ้ '+t.L+' แต้ม '+t.Pts+' | '+PN[T.press||0]+' | '+SN[T.style||0]+' | แผน '+T.fm+'</p>'+(sy.nm.length?'<p>'+sy.nm.map(function(n){return'<span class="tag">✨ '+n+'</span>'}).join("")+'</p>':"")+'<h3>ตัวจริง</h3>'+T.lu.map(row).join("")+'<h3 style="margin-top:8px">ตัวสำรอง</h3>'+bench(T).map(row).join("")+'</div>'}
 function closeLog(){var o=$("lgo");if(o)o.remove();G.lastSeen=APP_VER;save()}
 
 function rec(i,j,gi,gj){var t=G.L.tb;t[i].P++;t[j].P++;t[i].GF+=gi;t[i].GA+=gj;t[j].GF+=gj;t[j].GA+=gi;
@@ -264,7 +270,7 @@ function endRound(pm){var L=G.L,txt="";
  L.round++;G.msg=txt;if(L.round>=22)endSeason();save()}
 function endSeason(){var L=G.L,o=L.teams.map(function(t,i){return i}).sort(function(a,b){var x=L.tb[a],y=L.tb[b];return y.Pts-x.Pts||(y.GF-y.GA)-(x.GF-x.GA)||y.GF-x.GF}),pos=o.indexOf(0)+1,div=L.div,t="";
  if(pos<=2&&div>1){div--;t="เลื่อนชั้น! "}else if(pos>=10&&div<3){div++;t="ตกชั้น "}
- var c=Math.max(50,250-pos*20);L.teams[0].an.forEach(function(a){a.se=(a.se||0)+1});G.qc=10;if(t=="ตกชั้น ")G.tk=(G.tk||0)+1;ev2("จบฤดูกาล "+L.season+" อันดับ "+pos);G.coins+=c;G.sp+=2;G.tr+=2;G.msg="จบฤดูกาล "+L.season+": อันดับ "+pos+" "+t+"ได้รางวัล 🪙"+c+" 🔍2 🎓2 เข้าสู่ดิวิชัน "+div+" ได้ ⚡ซิมเร็ว 10 ใบ"+(t=="ตกชั้น "?" และ 🎫ตั๋วซิมทั้งฤดูกาล 1 ใบ":"");
+ var c=Math.max(50,250-pos*20);L.teams[0].an.forEach(function(a){a.se=(a.se||0)+1;a.st=100;a.f=0;a.cs=0;a.rs=0;a.inj=null;a.pl=0});G.qc=10;G.fs=(G.fs||0)+5;if(t=="ตกชั้น ")G.tk=(G.tk||0)+1;ev2("จบฤดูกาล "+L.season+" อันดับ "+pos);G.coins+=c;G.sp+=2;G.tr+=2;G.msg="จบฤดูกาล "+L.season+": อันดับ "+pos+" "+t+"ได้รางวัล 🪙"+c+" 🔍2 🎓2 เข้าสู่ดิวิชัน "+div+" ได้ ⚡ซิมเร็ว 10 ใบ 🎁แมวมองฟรี 5 ครั้ง"+(t=="ตกชั้น "?" และ 🎫ตั๋วซิมทั้งฤดูกาล 1 ใบ":"")+" ทีมฟิตเต็ม 100% ฟอร์มและสภาพกลับเป็นปกติ หายบาดเจ็บทั้งหมด";
  G.L=newLeague(div,L.season+1,L.teams[0])}
 function runQuick(){var m=myMatch();if(!m)return null;var x=mkMatch(G.L.teams[m[0]],G.L.teams[m[1]],m);for(var i=0;i<90;i++)step(x);return x}
 function qs(){var m=myMatch();if(m){if(G.qc<1){G.msg="การ์ดซิมเร็วหมดแล้ว ต้องเล่นแมตช์เอง";return rd()}G.qc--}endRound(runQuick());rd()}
@@ -298,7 +304,7 @@ function upd(){if(!M||V!="mt")return;lay();$("sb").textContent=M.T[0].n+" "+M.sc
 function vMt(){setTimeout(function(){upd();draw()},0);return'<div class="card"><div class="big" id="sb"></div><p class="mute s" style="text-align:center" id="mn"></p><canvas id="cv" width="640" height="340"></canvas><div class="row" style="margin-top:8px"><button onclick="play()">เล่นต่อ</button><button class="g" onclick="clearInterval(MI)">หยุดชั่วคราว</button><button class="g" onclick="clearInterval(MI);while(M.n<90)step(M);endMatch()">ซิมไปจนจบแมตช์</button><span id="itm" class="row"></span></div></div><div class="card" id="sub"></div><div class="card log" id="lg2"></div>'}
 function vLg(){var L=G.L,o=L.teams.map(function(t,i){return i}).sort(function(a,b){var x=L.tb[a],y=L.tb[b];return y.Pts-x.Pts||(y.GF-y.GA)-(x.GF-x.GA)||y.GF-x.GF}),T=P(),m=myMatch(),h='<div class="card"><p>'+G.msg+'</p></div>'+(G.fd.length?'<div class="card s"><b>เหตุการณ์ล่าสุด</b>'+G.fd.map(function(x){return'<p class="s" style="margin:2px 0">'+x+'</p>'}).join("")+'</div>':"");
  h+='<div class="card"><h2>ดิวิชัน '+L.div+' ฤดูกาล '+L.season+' นัดที่ '+Math.min(L.round+1,22)+'/22</h2><div class="s mute">เลื่อนชั้น 2 อันดับแรก ตกชั้น 2 อันดับสุดท้าย</div><table><tr><th>#</th><th>ทีม</th><th>แข่ง</th><th>ชนะ</th><th>เสมอ</th><th>แพ้</th><th>+/-</th><th>แต้ม</th></tr>';
- o.forEach(function(i,p){var t=L.tb[i];h+='<tr class="'+(i==0?"me":"")+'"><td>'+(p+1)+'</td><td>'+L.teams[i].n+'</td><td>'+t.P+'</td><td>'+t.W+'</td><td>'+t.D+'</td><td>'+t.L+'</td><td>'+(t.GF-t.GA)+'</td><td>'+t.Pts+'</td></tr>'});
+ o.forEach(function(i,p){var t=L.tb[i];h+='<tr class="'+(i==0?"me":"")+'"><td>'+(p+1)+'</td><td><button class="g" style="padding:1px 6px;font-weight:400" onclick="tv('+i+')">'+L.teams[i].n+'</button></td><td>'+t.P+'</td><td>'+t.W+'</td><td>'+t.D+'</td><td>'+t.L+'</td><td>'+(t.GF-t.GA)+'</td><td>'+t.Pts+'</td></tr>'});
  h+='</table></div><div class="card"><h2>แมตช์ถัดไป</h2>';
  if(m){var op=L.teams[m[0]==0?m[1]:m[0]];h+='<p>'+(m[0]==0?"เหย้า":"เยือน")+' พบ <b>'+op.n+'</b> <span class="mute s">('+op.an.slice(0,7).map(function(a){return SP[a.sp].e}).join("")+')</span></p>'}else h+='<p>รอบนี้ทีมได้พัก</p>';
  h+='<div class="row"><label>เพรสซิง <select onchange="P().press=+this.value">'+PN.map(function(n,i){return'<option value="'+i+'"'+(T.press==i?" selected":"")+'>'+n+'</option>'}).join("")+'</select></label><label>สไตล์ <select onchange="P().style=+this.value">'+SN.map(function(n,i){return'<option value="'+i+'"'+(T.style==i?" selected":"")+'>'+n+'</option>'}).join("")+'</select></label><label>แผน <select onchange="P().fm=this.value">'+["2-3-1","3-2-1","2-2-2"].map(function(n){return'<option'+(T.fm==n?" selected":"")+'>'+n+'</option>'}).join("")+'</select></label></div>';
@@ -336,16 +342,17 @@ function tgItem(i){var t=P().items,k=t.indexOf(i);if(k>=0)t.splice(k,1);else if(
 function pick(i){var T=P();if(SEL<0){SEL=i;return rd()}if(SEL==i){SEL=-1;return rd()}var a=T.lu.indexOf(SEL)>=0,b=T.lu.indexOf(i)>=0;
  if(a!=b){var o=a?SEL:i,n=a?i:SEL;if(!T.an[n].inj)T.lu[T.lu.indexOf(o)]=n;else G.msg="ตัวที่บาดเจ็บลงสนามไม่ได้"}SEL=-1;rd()}
 function eq(i,k,v){var a=P().an[i];v=+v;if(v!=a.eq[k]){if(v>=0){if(G.coins<10){G.msg="เหรียญไม่พอ (ใส่ชุดตัวละ 10)";return rd()}G.coins-=10}a.eq[k]=v}save();rd()}
+function canUp(a){return a.lv<3&&a.cd>=(a.lv+1)*(SP[a.sp].r?3:1)&&G.coins>=upc(a)}
 function upc(a){return[50,100,200][a.lv]*(SP[a.sp].r?2:1)}
-function up(i){var a=P().an[i],n=(a.lv+1)*(SP[a.sp].r?3:1);if(a.lv>=3||a.cd<n)return;var cc=upc(a);if(G.coins<cc){G.msg="เหรียญไม่พอสำหรับอัปเกรด (ต้อง 🪙"+cc+")";return rd()}G.coins-=cc;a.cd-=n;a.lv++;a.xp=(a.xp||0)+3;ev2(SP[a.sp].e+" "+SP[a.sp].n+" อัปเกรดเป็น Lv"+a.lv);save();rd()}
+function up(i){var a=P().an[i],n=(a.lv+1)*(SP[a.sp].r?3:1);if(a.lv>=3||a.cd<n)return;var cc=upc(a);if(G.coins<cc){G.msg="เหรียญไม่พอสำหรับอัปเกรด (ต้อง 🪙"+cc+")";return rd()}G.coins-=cc;a.cd-=n;a.lv++;a.xp=(a.xp||0)+3;G.msg=SP[a.sp].e+" "+SP[a.sp].n+" อัปเกรดเป็น Lv"+a.lv+" แล้ว";ev2(SP[a.sp].e+" "+SP[a.sp].n+" อัปเกรดเป็น Lv"+a.lv);save();rd()}
 function trainCost(){return Math.max(1,3-G.b[0])}
 function train(i,c){var a=P().an[i],cost=trainCost(),ch=CT[c].filter(function(t){return a.tr.indexOf(t)<0});if(G.tr<cost){G.msg="ทรัพยากรฝึกไม่พอ";return rd()}if(!ch.length){G.msg="สัตว์ตัวนี้มีทักษะของทวีปนี้ครบแล้ว";return rd()}
  var t=R(ch);G.tr-=cost;if(a.tr.length>=3)a.tr.splice(1+rn(2),1);a.tr.push(t);a.tc=c;G.msg=SP[a.sp].e+" ฝึกที่"+CONT[c]+" ได้ทักษะ「"+TR[t].n+"」";save();rd()}
-function scout(c){var cost=Math.max(1,2-G.b[1]);if(G.sp<cost){G.msg="แต้มแมวมองไม่พอ";return rd()}G.sp-=cost;var pool=[];SP.forEach(function(s,i){if(s.c==c)for(var k=0;k<(s.r?1+G.b[1]:3);k++)pool.push(i)});var i=R(pool),T=P(),f=T.an.filter(function(a){return a.sp==i})[0];
+function scout(c){var free=(G.fs||0)>0,cost=Math.max(1,2-G.b[1]);if(!free&&G.sp<cost){G.msg="แต้มแมวมองไม่พอ";return rd()}if(free)G.fs--;else G.sp-=cost;var pool=[];SP.forEach(function(s,i){if(s.c==c)for(var k=0;k<(s.r?1+G.b[1]:3);k++)pool.push(i)});var i=R(pool),T=P(),f=T.an.filter(function(a){return a.sp==i})[0];
  if(f){f.cd++;G.msg="เจอ "+SP[i].e+" "+SP[i].n+" ที่มีอยู่แล้ว ได้การ์ดสัตว์ +1"}else{T.an.push(mk(i));G.msg="🎉 สัตว์ใหม่เข้าทีม: "+SP[i].e+" "+SP[i].n}save();rd()}
 function bup(i){var c=80*(G.b[i]+1);if(G.b[i]>=3||G.coins<c)return;G.coins-=c;G.b[i]++;save();rd()}
 function vTm(){var T=P(),RL=roles(T),role={},h='<div class="card"><p>'+G.msg+'</p></div>',sy=syn(T);RL.forEach(function(r){role[T.an.indexOf(r.a)]={GK:"ผู้รักษาประตู",DF:"รับ",MF:"กลาง",FW:"บุก"}[r.r]});
- var row=function(i){var a=T.an[i],s=SP[a.sp];return'<button class="g'+(SEL==i?' on':'')+'" onclick="pick('+i+')"><span>'+s.e+" "+s.n+" Lv"+a.lv+" "+(role[i]?'<b>['+role[i]+']</b> ':"")+"ฟิต "+Math.round(a.st)+"% สภาพ "+CA[cond(a)+2]+" "+["❄️","","🔥"][a.f+1]+(a.inj?" 🤕"+a.inj.n+"("+a.inj.l+")":"")+'</span><span class="s st">เตะ/ความเร็ว '+stt(a,"p")+" | แรง "+stt(a,"s")+" | ทักษะ "+stt(a,"k")+" | ป้องกัน "+stt(a,"g")+"</span></button>"+(SEL==i?vPf(i):"")};
+ var row=function(i){var a=T.an[i],s=SP[a.sp];return'<button class="g'+(SEL==i?' on':'')+'" onclick="pick('+i+')"><span>'+s.e+" "+s.n+" Lv"+a.lv+(canUp(a)?' <span class="upb" role="button" title="อัปเกรด" onclick="event.stopPropagation();up('+i+')">+</span>':"")+" "+(role[i]?'<b>['+role[i]+']</b> ':"")+"ฟิต "+Math.round(a.st)+"% สภาพ "+CA[cond(a)+2]+" "+["❄️","","🔥"][a.f+1]+(a.inj?" 🤕"+a.inj.n+"("+a.inj.l+")":"")+'</span><span class="s st">เตะ/ความเร็ว '+stt(a,"p")+" | แรง "+stt(a,"s")+" | ทักษะ "+stt(a,"k")+" | ป้องกัน "+stt(a,"g")+"</span></button>"+(SEL==i?vPf(i):"")};
  h+='<div class="card list"><h2>ตัวจริง 7 ตัว (ตำแหน่งเกิดจากลักษณะสัตว์)</h2>'+T.lu.map(row).join("")+'<h3 style="margin-top:8px">ตัวสำรอง</h3>'+bench(T).map(row).join("")+'<div class="row" style="margin-top:8px"><button onclick="autoLu()">จัดทีมอัตโนมัติ</button></div><p class="s mute">แตะตัวหนึ่ง แล้วแตะอีกตัวเพื่อสลับตัวจริงกับสำรอง (แตะตัวเดิมซ้ำเพื่อยกเลิก) ความฟิตไม่เด้งกลับเต็มหลังแข่ง ตัวที่ลงติดกันหลายนัดจะสภาพแย่ลง ต้องสลับตัวพัก</p>'+'<h3 style="margin-top:8px">ซินเนอร์จี</h3>'+SYN.map(function(y){var es=T.lu.map(function(i){return SP[T.an[i].sp].e}),c=y[0].filter(function(e){return es.indexOf(e)>=0}).length;return'<p class="s" style="margin:2px 0">'+(c>=2?"✅":"⬜")+" <b>"+y[1]+"</b> "+y[0].join("")+" "+c+"/"+y[0].length+" โบนัส: "+fx(y[2])+(c>=2?"":" (ต้องมี 2 ตัวขึ้นไป)")+"</p>"}).join("")+sy.nm.filter(function(n){return n.indexOf("/")<0}).map(function(n){return'<span class="tag">✨ '+n+'</span>'}).join("")+'</div>';
  if(0){var a=T.an[SEL],s=SP[a.sp],n=0,m=0;
   h+='<div class="card"><h2>'+s.e+" "+s.n+" ("+rar(a)+(s.r?" ธรรมชาติ":"")+')</h2><p>เตะ/ความเร็ว '+stt(a,"p")+' | แรง '+stt(a,"s")+' | ทักษะ '+stt(a,"k")+' | ป้องกัน '+stt(a,"g")+'</p>';
@@ -356,14 +363,14 @@ function vTm(){var T=P(),RL=roles(T),role={},h='<div class="card"><p>'+G.msg+'</
   var sel=function(k,arr,lab){return'<label>'+lab+' <select onchange="eq('+SEL+',\''+k+'\',this.value)"><option value="-1">-</option>'+arr.map(function(x,j){return'<option value="'+j+'"'+(a.eq[k]==j?" selected":"")+'>'+x+'</option>'}).join("")+'</select></label> '};
   h+='<div class="s" style="margin-top:8px"><b>อุปกรณ์</b> (ใส่ชิ้นละ 🪙10) ชุดเดียวกัน 2 ชิ้นได้โบนัสเล็ก 3 ชิ้นได้เต็ม</div><div class="row">'+sel("t",SHT,"เสื้อ")+sel("sh",SETS,"ชุดเสื้อ")+sel("pa",SETS,"กางเกง")+sel("so",SETS,"รองเท้า")+'</div><p class="s mute">ค้อนชนะกรรไกร กรรไกรชนะกระดาษ กระดาษชนะค้อน (ได้เปรียบนิดเดียว ไม่ชนะแน่นอน)</p></div>'}
  return h}
-function vSc(){var c=Math.max(1,2-G.b[1]),h='<div class="card"><p>'+G.msg+'</p></div><div class="card"><h2>แมวมอง</h2><p class="s mute">เลือกทวีปที่จะส่งแมวมองไป (ใช้ 🔍'+c+') ถ้าได้สัตว์ซ้ำจะกลายเป็นการ์ดไว้อัปเกรด</p><div class="row">';
+function vSc(){var c=Math.max(1,2-G.b[1]),h='<div class="card"><p>'+G.msg+'</p></div><div class="card"><h2>แมวมอง</h2><p class="s mute">เลือกทวีปที่จะส่งแมวมองไป (ใช้ '+((G.fs||0)>0?'สิทธิ์ฟรี 🎁 เหลือ '+G.fs+' ครั้ง':'🔍'+c)+') ถ้าได้สัตว์ซ้ำจะกลายเป็นการ์ดไว้อัปเกรด</p><div class="row">';
  CONT.forEach(function(n,i){h+='<button onclick="scout('+i+')">'+n+" "+SP.filter(function(s){return s.c==i}).map(function(s){return s.e}).join("")+'</button>'});return h+'</div></div>'}
 function vZo(){var h='<div class="card"><p>'+G.msg+'</p></div><div class="card"><h2>สวนสัตว์ของฉัน</h2>';
  BN.forEach(function(n,i){var c=80*(G.b[i]+1);h+='<p><b>'+n+'</b> เลเวล '+G.b[i]+'/3 <span class="s mute">'+BD[i]+'</span> <button class="g" onclick="bup('+i+')"'+(G.b[i]>=3||G.coins<c?" disabled":"")+'>อัปเกรด 🪙'+c+'</button></p>'});
  return h+'<p class="s mute">รายได้: เหรียญ/แต้มแมวมอง/ทรัพยากรฝึก ได้จากผลแมตช์และจบฤดูกาล</p><button class="g" onclick="if(confirm(\'เริ่มเกมใหม่ทั้งหมด?\')){newGame();save();rd()}">เริ่มเกมใหม่</button></div>'+vSave()}
-function rd(){var vs={lg:["ลีก",vLg],tm:["ทีม",vTm],sc:["แมวมอง",vSc],zo:["สวนสัตว์",vZo],mt:["แมตช์",vMt]};
- $("nav").innerHTML=Object.keys(vs).filter(function(k){return k!="mt"||M}).map(function(k){return'<button class="'+(V==k?"":"g")+'" onclick="'+(M&&k!="mt"?"clearInterval(MI);":"")+'V=\''+k+'\';rd();'+(k=="mt"?"play()":"")+'">'+vs[k][0]+'</button>'}).join("");
- $("res").textContent="🪙 "+G.coins+"   🔍 "+G.sp+"   🎓 "+G.tr+"   ⚡ซิมเร็ว "+G.qc+"   🎫ตั๋วซิมฤดูกาล "+G.tk;$("app").innerHTML=vs[V][1]();if(V!="mt")save();if(V=="tm"&&SEL>=0){var pf=$("pf");if(pf)pf.scrollIntoView({block:"nearest",behavior:"smooth"})}}
+function rd(){var vs={lg:["ลีก",vLg],tm:["ทีม",vTm],sc:["แมวมอง",vSc],zo:["สวนสัตว์",vZo],mt:["แมตช์",vMt],tv:["ทีมคู่แข่ง",vTv]};
+ $("nav").innerHTML=Object.keys(vs).filter(function(k){return k=="mt"?M:k=="tv"?V=="tv":1}).map(function(k){return'<button class="'+(V==k?"":"g")+'" onclick="'+(M&&k!="mt"?"clearInterval(MI);":"")+'V=\''+k+'\';rd();'+(k=="mt"?"play()":"")+'">'+vs[k][0]+'</button>'}).join("");
+ $("res").textContent="🪙 "+G.coins+"   🔍 "+G.sp+"   🎓 "+G.tr+"   ⚡ซิมเร็ว "+G.qc+"   🎫ตั๋วซิมฤดูกาล "+G.tk+((G.fs||0)>0?"   🎁แมวมองฟรี "+G.fs:"");$("app").innerHTML=vs[V][1]();if(V!="mt")save();if(V=="tm"&&SEL>=0){var pf=$("pf");if(pf)pf.scrollIntoView({block:"nearest",behavior:"smooth"})}}
 boot();
 if(!G||!G.L)newGame();
 rd();showLog(0);
