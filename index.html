@@ -150,7 +150,7 @@ var SETS=["ชุดกดดัน","ชุดยืนตำแหน่ง","
 var SYN=[[["🦁","🐅","🐺"],"ฝูงนักล่า",{pr:.1,sh:.1}],[["🐘","🦒","🦓"],"ฝูงสะวันนา",{ps:.1,df:.1}],[["🐇","🦔","🦡"],"สหายป่ายุโรป",{ps:.1,df:.05}],[["🦘","🐨","🐗"],"ครอบครัวออสซี่",{st:-.1,pr:.05}],[["🦊","🦉"],"นักล่ายามค่ำ",{sh:.1,df:.05}]];
 var TAC=[[.94,1.08,.8],[1,1,1],[1.08,.97,1.25]],STY=[[.9,1.12],[1,1],[1.12,.9]],PN=["ตั้งรับลึก","สมดุล","เพรสซิงสูง"],SN=["เน้นป้องกัน","สมดุล","เน้นบุก"];
 var ITEMS=[["🥕","แครอท","ฟื้นแรงทั้งทีม +15"],["🍯","น้ำผึ้ง","ส่งบอลดีขึ้นชั่วคราว"],["🍖","เนื้อย่าง","กดดันหนักขึ้นชั่วคราว แต่เหนื่อยกว่า"],["🌰","ถั่วพลัง","ฟื้นแรงตัวที่เหนื่อยสุด +35"]];
-var INJ=["หางพลิก","กรงเล็บบวม","งวงเหนื่อย","ไล่กระรอกมากไป","เท้าติดโคลน"],BN=["ลานฝึก","ศูนย์แมวมอง","ศูนย์พักฟื้น","ที่อยู่อาศัย"],BD=["ลดค่าฝึก 1 ต่อเลเวล","ลดค่าแมวมอง 1 ต่อเลเวล","ฟื้นแรงเพิ่ม และหายเจ็บไวขึ้น","เหนื่อยช้าลง 4% ต่อเลเวล"];
+var INJ=["หางพลิก","กรงเล็บบวม","งวงเหนื่อย","ไล่กระรอกมากไป","เท้าติดโคลน"],BN=["ลานฝึก","ศูนย์แมวมอง","ศูนย์พักฟื้น","ที่อยู่อาศัย"],BD=["ฝึกสำเร็จง่ายขึ้น และค่าฝึกลด 10% ต่อเลเวล","เพิ่มโอกาสเจอสัตว์หายากโดยธรรมชาติจากแมวมอง","ฟื้นแรงเพิ่ม และหายเจ็บไวขึ้น","เหนื่อยช้าลง 4% ต่อเลเวล"];
 var AIN=["ป่าลึกเอฟซี","สวนสัตว์เหนือ","ราชันทุ่งหญ้า","เมฆหมอกยูไนเต็ด","ถ้ำหมีสตาร์","ลุ่มน้ำซิตี้","เขาใหญ่ยูไนเต็ด","ทะเลทรายสตาร์","ป่าเมฆซิตี้","เกาะสวรรค์"];
 var G,V="lg",SEL=-1,M=null,MI=null,SUBSEL=-1;
 function P(){return G.L.teams[0]}
@@ -212,21 +212,22 @@ function newLeague(div,season,Pt){var teams=[Pt].concat(AIN.map(function(n){retu
  rd=rd.concat(rd.map(function(ms){return ms.map(function(m){return[m[1],m[0]]})}));
  return{div:div,season:season,round:0,teams:teams,rounds:rd,tb:teams.map(function(t){return{P:0,W:0,D:0,L:0,GF:0,GA:0,Pts:0}})}}
 function newGame(){var Pt={n:"สวนสัตว์ของฉัน",an:[22,21,3,12,5,23,25,47,33].map(function(i){return mk(i)}),lu:[0,1,2,3,4,5,6],fm:"2-3-1",press:1,style:1,items:[0,1,3]};
- G={saveVersion:CURRENT_SAVE_VERSION,lastSeen:APP_VER,coins:100,sp:3,tr:3,qc:10,tk:0,sc:[0,0,0],fd:[],b:[0,0,0,0],msg:"ยินดีต้อนรับ! เริ่มจากดิวิชัน 3 ลองจัดทีม ฝึกสัตว์ แล้วเตะนัดแรกได้เลย",L:newLeague(3,1,Pt)}}
-var CURRENT_SAVE_VERSION=4,APP_VER="0.6";
+ G={saveVersion:CURRENT_SAVE_VERSION,lastSeen:APP_VER,coins:100,sp:0,tr:0,qc:10,tk:0,sc:[0,0,0],fd:[],b:[0,0,0,0],msg:"ยินดีต้อนรับ! เริ่มจากดิวิชัน 3 ลองจัดทีม ฝึกสัตว์ แล้วเตะนัดแรกได้เลย",L:newLeague(3,1,Pt)}}
+var CURRENT_SAVE_VERSION=5,APP_VER="0.7";
 /* วิธีเพิ่มเวอร์ชันเซฟในอนาคต: 1) เขียน migrateV3toV4(d) 2) ใส่ใน MIG ว่า 3:migrateV3toV4 3) เพิ่ม CURRENT_SAVE_VERSION
    กติกา: สัตว์ใหม่เติมท้าย SID ได้อย่างเดียว (อย่าสลับลำดับ/ลบ) ทักษะใหม่เติมท้าย TR ได้อย่างเดียว
    ฟิลด์ใหม่ของสัตว์ให้ใส่ใน mk() แล้ว repair() จะเติมค่าเริ่มต้นให้เซฟเก่าเอง */
 var SID="lion,elephant,giraffe,zebra,rhino,hippo,hyena,cheetah,tiger,panda,komodo,asianwolf,monkey,cobra,redpanda,crane,fox,greywolf,brownbear,deer,badger,hedgehog,rabbit,owl,bison,raccoon,beaver,baldeagle,cougar,moose,coyote,skunk,jaguar,capybara,llama,toucan,anaconda,sloth,anteater,otter,kangaroo,koala,wombat,emu,devil,platypus,dingo,quokka".split(",");
 var LEGSP="lion,elephant,zebra,giraffe,tiger,monkey,bison,rabbit,greywolf,fox,owl,dingo,brownbear,baldeagle,quokka,hedgehog,komodo,sloth,kangaroo,koala".split(","),LEGT=[0,1,2,3,4,5,6,7,8,12,16,24,22,37,33,46,47,56,55,63,71];
-var CHANGES=[["0.6",["เอาไอเทมผู้จัดการออก","การ์ดแมวมอง 3 ระดับ: หมู่บ้าน ประเทศ ทวีป","รางวัลจบฤดูกาลเป็นการ์ดแมวมองตามอันดับ","แมวมองฟรีเดิมที่ยังเหลือถูกแปลงเป็นการ์ดระดับหมู่บ้านให้อัตโนมัติ"]],["0.5",["จบฤดูกาลทีมฟิต 100% ฟอร์มและสภาพกลับเป็นปกติ","รางวัลจบฤดูกาล: แมวมองฟรี 5 ครั้ง","แตะชื่อทีมในตารางลีกเพื่อดูผู้เล่นของทีมอื่น"]],["0.4",["ระบบความฟิตต่อเนื่องและลูกศรสภาพ ⬆⬆ ⬆ ➡ ⬇ ⬇⬇","สัตว์ 48 ชนิด ทวีปละ 8 ตัว","ทักษะประจำทวีป 60 อัน ฝึกให้เก่งขึ้นได้สูงสุด 3 ดาว","ระบบเซฟแบบมีเวอร์ชัน อัปเดตเกมแล้วเซฟเก่าไม่หาย","ส่งออก/นำเข้าเซฟ","การ์ดซิมเร็วและตั๋วซิมทั้งฤดูกาล"]]];
+var CHANGES=[["0.7",["ระบบเศรษฐกิจใหม่: เหลือแค่เหรียญและตั๋วแมวมอง","ทุกแมตช์ได้ตั๋วหมู่บ้าน แพ้ก็ได้ 1 ใบ","ตั๋วรวมอัตโนมัติ 3 หมู่บ้าน = 1 ประเทศ, 3 ประเทศ = 1 ทวีป","โบนัสผลงาน: ยิง 3+ ประตู คลีนชีต ชนะทีมอันดับสูงกว่า","รางวัลจบฤดูกาลตามอันดับ ได้ตั๋วทวีปสำหรับ 3 อันดับแรก","ค่าฝึกเปลี่ยนเป็นเหรียญ แต้มแมวมองและทรัพยากรฝึกเดิมถูกแปลงเป็นตั๋วและเหรียญให้อัตโนมัติ"]],["0.6",["เอาไอเทมผู้จัดการออก","การ์ดแมวมอง 3 ระดับ: หมู่บ้าน ประเทศ ทวีป","รางวัลจบฤดูกาลเป็นการ์ดแมวมองตามอันดับ","แมวมองฟรีเดิมที่ยังเหลือถูกแปลงเป็นการ์ดระดับหมู่บ้านให้อัตโนมัติ"]],["0.5",["จบฤดูกาลทีมฟิต 100% ฟอร์มและสภาพกลับเป็นปกติ","รางวัลจบฤดูกาล: แมวมองฟรี 5 ครั้ง","แตะชื่อทีมในตารางลีกเพื่อดูผู้เล่นของทีมอื่น"]],["0.4",["ระบบความฟิตต่อเนื่องและลูกศรสภาพ ⬆⬆ ⬆ ➡ ⬇ ⬇⬇","สัตว์ 48 ชนิด ทวีปละ 8 ตัว","ทักษะประจำทวีป 60 อัน ฝึกให้เก่งขึ้นได้สูงสุด 3 ดาว","ระบบเซฟแบบมีเวอร์ชัน อัปเดตเกมแล้วเซฟเก่าไม่หาย","ส่งออก/นำเข้าเซฟ","การ์ดซิมเร็วและตั๋วซิมทั้งฤดูกาล"]]];
 function eachAn(d,f){d.L.teams.forEach(function(t){t.an.forEach(f)})}
 function migrateV1toV2(d){eachAn(d,function(a){var i=SID.indexOf(LEGSP[a.sp]);a.sp=i>=0?i:0;a.tr=(a.tr||[]).map(function(t){return LEGT[t]!=null?LEGT[t]:t});(a.th||[]).forEach(function(x){if(x.t>=0&&LEGT[x.t]!=null)x.t=LEGT[x.t]})})}
 function migrateV2toV3(d){eachAn(d,function(a){a.sid=SID[a.sp]});d.lastSeen=d.lastSeen||""}
 function migrateV3toV4(d){d.sc=d.sc||[d.fs||0,0,0];d.fs=0}
-var MIG={1:migrateV1toV2,2:migrateV2toV3,3:migrateV3toV4};
+function migrateV4toV5(d){d.sc=d.sc||[0,0,0];d.sc[0]+=(d.sp||0);d.coins=(d.coins||0)+(d.tr||0)*40;d.sp=0;d.tr=0}
+var MIG={1:migrateV1toV2,2:migrateV2toV3,3:migrateV3toV4,4:migrateV4toV5};
 function fixSp(d){eachAn(d,function(a){var i=SID.indexOf(a.sid);if(i>=0)a.sp=i;else if(!(a.sp>=0&&a.sp<SP.length))a.sp=0;a.sid=SID[a.sp]})}
-function repair(d){d.coins=+d.coins||0;d.sp=+d.sp||0;d.tr=+d.tr||0;d.qc=d.qc==null?10:d.qc;d.tk=d.tk||0;d.fd=d.fd||[];d.td=d.td||0;d.fs=d.fs||0;d.sc=d.sc||[0,0,0];d.msg=d.msg||"";
+function repair(d){d.coins=+d.coins||0;d.sp=+d.sp||0;d.tr=+d.tr||0;d.qc=d.qc==null?10:d.qc;d.tk=d.tk||0;d.fd=d.fd||[];d.td=d.td||0;d.fs=d.fs||0;d.sc=d.sc||[0,0,0];mergeSc(d.sc);d.msg=d.msg||"";
  var b=d.b||[];while(b.length<4)b.push(0);d.b=b.slice(0,4);
  d.L.teams.forEach(function(t,ti){var df=mk(0);t.an.forEach(function(a){for(var k in df)if(a[k]==null)a[k]=JSON.parse(JSON.stringify(df[k]));
   a.tr=(a.tr&&a.tr.length?a.tr:[SP[a.sp].t]).filter(function(x,i,r){return x>=0&&x<TR.length&&r.indexOf(x)==i}).slice(0,3);a.tq=a.tq||{};a.th=a.th||[];a.eq=a.eq||{};["t","sh","pa","so"].forEach(function(k){if(a.eq[k]==null)a.eq[k]=-1})});
@@ -262,20 +263,23 @@ function closeLog(){var o=$("lgo");if(o)o.remove();G.lastSeen=APP_VER;save()}
 function rec(i,j,gi,gj){var t=G.L.tb;t[i].P++;t[j].P++;t[i].GF+=gi;t[i].GA+=gj;t[j].GF+=gj;t[j].GA+=gi;
  if(gi>gj){t[i].W++;t[j].L++;t[i].Pts+=3}else if(gi<gj){t[j].W++;t[i].L++;t[j].Pts+=3}else{t[i].D++;t[j].D++;t[i].Pts++;t[j].Pts++}}
 function myMatch(){var m=G.L.rounds[G.L.round].filter(function(m){return m[0]==0||m[1]==0})[0];return m&&m[0]!=11&&m[1]!=11?m:null}
-function endRound(pm){var L=G.L,txt="";
+function endRound(pm){var L=G.L,txt="",hi=0;if(pm)hi=better(pm.m[0]==0?pm.m[1]:pm.m[0],0)>0;
  L.rounds[L.round].forEach(function(m){if(m[0]==11||m[1]==11)return;var x;
   if(pm&&pm.m===m)x=pm;else if(m[0]!=0&&m[1]!=0){x=mkMatch(L.teams[m[0]],L.teams[m[1]],m);for(var i=0;i<90;i++)step(x)}else return;rec(m[0],m[1],x.sc[0],x.sc[1])});
  if(pm){var me=pm.m[0]==0?0:1,gf=pm.sc[me],ga=pm.sc[1-me],w=gf>ga?2:gf==ga?1:0;
-  G.coins+=[20,40,80][w];G.sp+=[1,1,2][w];G.tr+=[0,1,2][w];txt=(w==2?"ชนะ ":w==1?"เสมอ ":"แพ้ ")+gf+"-"+ga+" ได้ 🪙"+[20,40,80][w]+" 🔍"+[1,1,2][w]+" 🎓"+[0,1,2][w];
+  var bn=[],bx=0,tkn=[1,2,3][w];
+  if(gf>=3){bx+=20;bn.push("ยิง 3+ ประตู +20")}if(ga==0){bx+=20;bn.push("คลีนชีต +20")}if(w==2&&hi){bx+=30;bn.push("ชนะทีมอันดับสูงกว่า +30")}
+  G.coins+=[50,80,120][w]+bx;var mg=addT(0,tkn);
+  txt=(w==2?"ชนะ ":w==1?"เสมอ ":"แพ้ ")+gf+"-"+ga+" ได้ 🪙"+([50,80,120][w]+bx)+" 🎫หมู่บ้าน +"+tkn+(bn.length?" โบนัส: "+bn.join(", "):"")+(mg?" "+mg:"");
   P().lu.forEach(function(i){var a=P().an[i];if(w==2&&Math.random()<.4)a.f=Math.min(1,a.f+1);else if(w==0&&Math.random()<.4)a.f=Math.max(-1,a.f-1);else if(Math.random()<.12)a.f=rn(3)-1})}
  else txt="รอบนี้ทีมได้พัก";
  P().an.forEach(function(a){if(a.pl){a.mp=(a.mp||0)+1;a.cs=(a.cs||0)+1;a.rs=0;a.st=Math.min(100,a.st+3*G.b[2])}else{a.rs=(a.rs||0)+1;a.cs=0;a.st=Math.min(100,a.st+25+8*G.b[2])}a.pl=0;if(a.inj){a.inj.l-=1+(G.b[2]>=2?1:0);if(a.inj.l<=0)a.inj=null}});
  L.round++;G.msg=txt;if(L.round>=22)endSeason();save()}
 function endSeason(){var L=G.L,o=L.teams.map(function(t,i){return i}).sort(function(a,b){var x=L.tb[a],y=L.tb[b];return y.Pts-x.Pts||(y.GF-y.GA)-(x.GF-x.GA)||y.GF-x.GF}),pos=o.indexOf(0)+1,div=L.div,t="";
  if(pos<=2&&div>1){div--;t="เลื่อนชั้น! "}else if(pos>=10&&div<3){div++;t="ตกชั้น "}
- var c=Math.max(50,250-pos*20);L.teams[0].an.forEach(function(a){a.se=(a.se||0)+1;a.st=100;a.f=0;a.cs=0;a.rs=0;a.inj=null;a.pl=0});G.qc=10;var rw=pos<=3?[0,0,1]:pos<=6?[0,2,0]:[4,0,0],rt=pos<=3?"การ์ดแมวมองระดับทวีป x1":pos<=6?"การ์ดแมวมองระดับประเทศ x2":"การ์ดแมวมองระดับหมู่บ้าน x4";G.sc=G.sc||[0,0,0];[0,1,2].forEach(function(k){G.sc[k]+=rw[k]});if(t=="ตกชั้น ")G.tk=(G.tk||0)+1;ev2("จบฤดูกาล "+L.season+" อันดับ "+pos);G.coins+=c;G.sp+=2;G.tr+=2;var nw=[],dp={},Tm=L.teams[0];for(var cc=0;cc<6;cc++){var ids=[];SP.forEach(function(x,i){if(x.c==cc)ids.push(i)});for(var k=0;k<2;k++){var si=R(ids),f=Tm.an.filter(function(a){return a.sp==si})[0];if(f){f.cd=(f.cd||0)+1;dp[si]=(dp[si]||0)+1}else{Tm.an.push(mk(si,0));nw.push(si)}}}
+ var c=pos==1?1200:pos==2?1000:pos==3?800:pos<=6?500:pos<=9?300:200,ct=pos<=3?4-pos:0;L.teams[0].an.forEach(function(a){a.se=(a.se||0)+1;a.st=100;a.f=0;a.cs=0;a.rs=0;a.inj=null;a.pl=0});G.qc=10;G.sc=G.sc||[0,0,0];G.sc[2]+=ct;if(pos>=10)G.tk=(G.tk||0)+1;var rt=" 🪙"+c+(ct?" 🎫ตั๋วทวีป +"+ct:"")+(pos>=10?" 🎫ตั๋วซิมฤดูกาล +1":"");ev2("จบฤดูกาล "+L.season+" อันดับ "+pos);G.coins+=c;var nw=[],dp={},Tm=L.teams[0];for(var cc=0;cc<6;cc++){var ids=[];SP.forEach(function(x,i){if(x.c==cc)ids.push(i)});for(var k=0;k<2;k++){var si=R(ids),f=Tm.an.filter(function(a){return a.sp==si})[0];if(f){f.cd=(f.cd||0)+1;dp[si]=(dp[si]||0)+1}else{Tm.an.push(mk(si,0));nw.push(si)}}}
 var gt=" 🎁 รางวัลสัตว์ 12 ตัว (ทวีปละ 2): ใหม่ "+(nw.length?nw.map(function(i){return SP[i].e+SP[i].n}).join(" "):"ไม่มี")+(Object.keys(dp).length?" | ซ้ำกลายเป็นการ์ด "+Object.keys(dp).map(function(i){return SP[i].e+"x"+dp[i]}).join(" "):"");ev2("รางวัลจบฤดูกาล: ได้สัตว์ใหม่ "+nw.length+" ตัว");
-G.msg="จบฤดูกาล "+L.season+": อันดับ "+pos+" "+t+"ได้รางวัล 🪙"+c+" 🔍2 🎓2 เข้าสู่ดิวิชัน "+div+" ได้ ⚡ซิมเร็ว 10 ใบ 🎫"+rt+(t=="ตกชั้น "?" และ 🎫ตั๋วซิมทั้งฤดูกาล 1 ใบ":"")+" ทีมฟิตเต็ม 100% ฟอร์มและสภาพกลับเป็นปกติ หายบาดเจ็บทั้งหมด"+gt;
+G.msg="จบฤดูกาล "+L.season+": อันดับ "+pos+" "+t+"ได้รางวัล"+rt+" เข้าสู่ดิวิชัน "+div+" ได้ ⚡ซิมเร็ว 10 ใบ"+" ทีมฟิตเต็ม 100% ฟอร์มและสภาพกลับเป็นปกติ หายบาดเจ็บทั้งหมด"+gt;
  G.L=newLeague(div,L.season+1,L.teams[0])}
 function runQuick(){var m=myMatch();if(!m)return null;var x=mkMatch(G.L.teams[m[0]],G.L.teams[m[1]],m);for(var i=0;i<90;i++)step(x);return x}
 function qs(){var m=myMatch();if(m){if(G.qc<1){G.msg="การ์ดซิมเร็วหมดแล้ว ต้องเล่นแมตช์เอง";return rd()}G.qc--}endRound(runQuick());rd()}
@@ -325,7 +329,7 @@ function autoLu(){var T=P(),fm=T.fm.split("-").map(Number),pool=T.an.map(functio
  pool.forEach(function(i){var a=T.an[i],e=SP[a.sp].e,sy=0;SYN.forEach(function(y){if(y[0].indexOf(e)>=0){var c=y[0].filter(function(z){return es.indexOf(z)>=0}).length+1;if(c>=2)sy+=c/y[0].length}});
   var x=rs[r](a)/mx+.25*(a.st/100)+.08*sy+.03*(cond(a)+2)/4-(a.inj?99:0);if(x>v){v=x;b=i}});pool.splice(pool.indexOf(b),1);out.push(b)}
  best("GK");for(var i=0;i<fm[2];i++)best("FW");for(i=0;i<fm[0];i++)best("DF");for(i=0;i<fm[1];i++)best("MF");T.lu=out;SEL=-1;G.msg="จัดทีมอัตโนมัติแล้ว ลำดับความสำคัญ: ความสามารถตามตำแหน่ง > ความฟิต > ซินเนอร์จี > สภาพ";rd()}
-function train2(i,c){var a=P().an[i],d=G.td||0,cost=d+1;if(G.tr<cost){G.msg="ทรัพยากรฝึกไม่พอ (ต้อง 🎓"+cost+")";return rd()}G.tr-=cost;a.th=a.th||[];a.tq=a.tq||{};
+function train2(i,c){var a=P().an[i],d=G.td||0,cost=tcost(d);if(G.coins<cost){G.msg="เหรียญไม่พอสำหรับฝึก (ต้อง 🪙"+cost+")";return rd()}G.coins-=cost;a.th=a.th||[];a.tq=a.tq||{};
  var ch=CT[c].filter(function(t){return a.tr.indexOf(t)<0}),own=CT[c].filter(function(t){return a.tr.indexOf(t)>=0&&(a.tq[t]||0)<3}),gx=[1,2,4][d]+(a.pe==3?1:0),nm=SP[a.sp].e+" "+SP[a.sp].n,h={c:c,d:d,t:-1},pw=[.55,.8,1][d]+.07*G.b[0],t;a.xp=(a.xp||0)+gx;a.tc=c;
  if(own.length&&(!ch.length||Math.random()<.3)&&Math.random()<pw+.1){t=R(own);a.tq[t]=(a.tq[t]||0)+1;h.t=t;h.u=1;G.msg=nm+" ฝึก「"+TR[t].n+"」ให้เก่งขึ้น "+"★".repeat(1+a.tq[t]);ev2(nm+" ฝึก "+TR[t].n+" ให้เก่งขึ้นที่"+CONT[c])}
  else if(ch.length&&Math.random()<pw){t=R(ch);if(a.tr.length>=3){var k=1+rn(a.tr.length-1);delete a.tq[a.tr[k]];a.tr.splice(k,1)}a.tr.push(t);h.t=t;G.msg=nm+" กลับจาก"+CONT[c]+" ได้ทักษะ「"+TR[t].n+"」";ev2(nm+" เรียนรู้ "+TR[t].n+" ที่"+CONT[c])}
@@ -342,7 +346,7 @@ function vPf(i){var T=P(),a=T.an[i],s=SP[a.sp],rl=roles(T).filter(function(r){re
  h+="<h3>ทักษะ (แตะเพื่อดูผลแฝง)</h3>"+a.tr.map(function(t){return'<button class="g'+(TSEL==t?" on":"")+'" onclick="tsel('+t+')">'+TR[t].n+" "+"★".repeat(1+((a.tq||{})[t]||0))+"</button>"}).join(" ")+a.tr.map(function(t){return TSEL==t?'<p class="s"><b>'+TR[t].n+"</b>: "+TR[t].d+"<br>ผลแฝง: "+fx(TR[t].m)+"</p>":""}).join("");
  h+='<h3 style="margin-top:8px">ประวัติการฝึก</h3><p class="s">'+(th.length?Object.keys(co).map(function(c){return CONT[c]+" x"+co[c]}).join(", ")+"<br>"+th.map(function(x){return CONT[x.c]+" ("+["สั้น","กลาง","ยาว"][x.d]+") "+(x.t>=0?(x.u?"ฝึกให้เก่งขึ้น: ":"ได้ ")+TR[x.t].n:"ได้ประสบการณ์")}).join("<br>"):"ยังไม่เคยไปฝึก")+"</p>";
  h+='<p class="s">การ์ดสัตว์ '+a.cd+' ใบ <button class="g" onclick="up('+i+')"'+(a.lv>=3||a.cd<n?" disabled":"")+">อัปเกรด Lv"+(a.lv+1)+" (การ์ด "+n+" + 🪙"+(a.lv>=3?"-":upc(a))+")</button></p>";
- h+='<div class="row"><b class="s">ฝึกที่ทวีป</b><select onchange="G.td=+this.value;rd()">'+["สั้น 🎓1 (โอกาสได้ทักษะ ~55%)","กลาง 🎓2 (~80%)","ยาว 🎓3 (~100%)"].map(function(x,j){return'<option value="'+j+'"'+((G.td||0)==j?" selected":"")+">"+x+"</option>"}).join("")+'</select></div><div class="row" style="margin-top:6px">'+CONT.map(function(c,j){return'<button class="g" onclick="train2('+i+","+j+')">'+c+" ("+CP[j]+")</button>"}).join("")+"</div>";
+ h+='<div class="row"><b class="s">ฝึกที่ทวีป</b><select onchange="G.td=+this.value;rd()">'+["สั้น 🪙"+tcost(0)+" (โอกาสได้ทักษะ ~55%)","กลาง 🪙"+tcost(1)+" (~80%)","ยาว 🪙"+tcost(2)+" (~100%)"].map(function(x,j){return'<option value="'+j+'"'+((G.td||0)==j?" selected":"")+">"+x+"</option>"}).join("")+'</select></div><div class="row" style="margin-top:6px">'+CONT.map(function(c,j){return'<button class="g" onclick="train2('+i+","+j+')">'+c+" ("+CP[j]+")</button>"}).join("")+"</div>";
  var sel=function(k,arr,lab){return"<label>"+lab+' <select onchange="eq('+i+",'"+k+"',this.value)\"><option value=\"-1\">-</option>"+arr.map(function(x,j){return'<option value="'+j+'"'+(a.eq[k]==j?" selected":"")+">"+x+"</option>"}).join("")+"</select></label> "};
  return h+'<div class="s" style="margin-top:8px"><b>อุปกรณ์</b> (ใส่ชิ้นละ 🪙10)</div><div class="row">'+sel("t",SHT,"เสื้อ")+sel("sh",SETS,"ชุดเสื้อ")+sel("pa",SETS,"กางเกง")+sel("so",SETS,"รองเท้า")+'</div><p class="s mute">ค้อนชนะกรรไกร กรรไกรชนะกระดาษ กระดาษชนะค้อน (ได้เปรียบนิดเดียว)</p></div>'}
 function pick(i){var T=P();if(SEL<0){SEL=i;return rd()}if(SEL==i){SEL=-1;return rd()}var a=T.lu.indexOf(SEL)>=0,b=T.lu.indexOf(i)>=0;
@@ -351,13 +355,15 @@ function eq(i,k,v){var a=P().an[i];v=+v;if(v!=a.eq[k]){if(v>=0){if(G.coins<10){G
 function canUp(a){return a.lv<3&&a.cd>=(a.lv+1)*(SP[a.sp].r?3:1)&&G.coins>=upc(a)}
 function upc(a){return[50,100,200][a.lv]*(SP[a.sp].r?2:1)}
 function up(i){var a=P().an[i],n=(a.lv+1)*(SP[a.sp].r?3:1);if(a.lv>=3||a.cd<n)return;var cc=upc(a);if(G.coins<cc){G.msg="เหรียญไม่พอสำหรับอัปเกรด (ต้อง 🪙"+cc+")";return rd()}G.coins-=cc;a.cd-=n;a.lv++;a.xp=(a.xp||0)+3;G.msg=SP[a.sp].e+" "+SP[a.sp].n+" อัปเกรดเป็น Lv"+a.lv+" แล้ว";ev2(SP[a.sp].e+" "+SP[a.sp].n+" อัปเกรดเป็น Lv"+a.lv);save();rd()}
-function trainCost(){return Math.max(1,3-G.b[0])}
-function train(i,c){var a=P().an[i],cost=trainCost(),ch=CT[c].filter(function(t){return a.tr.indexOf(t)<0});if(G.tr<cost){G.msg="ทรัพยากรฝึกไม่พอ";return rd()}if(!ch.length){G.msg="สัตว์ตัวนี้มีทักษะของทวีปนี้ครบแล้ว";return rd()}
- var t=R(ch);G.tr-=cost;if(a.tr.length>=3)a.tr.splice(1+rn(2),1);a.tr.push(t);a.tc=c;G.msg=SP[a.sp].e+" ฝึกที่"+CONT[c]+" ได้ทักษะ「"+TR[t].n+"」";save();rd()}
+function mergeSc(sc){var out=[];[0,1].forEach(function(j){var m=Math.floor(sc[j]/3);if(m>0){sc[j]-=m*3;sc[j+1]+=m;out.push("✨ รวมตั๋วสำเร็จ "+(m*3)+" ใบระดับ"+TN[j]+" กลายเป็น "+m+" ใบระดับ"+TN[j+1])}});return out.join(" ")}
+function addT(k,n){G.sc=G.sc||[0,0,0];G.sc[k]+=n;var m=mergeSc(G.sc);if(m)ev2(m);return m}
+function better(a,b){var x=G.L.tb[a],y=G.L.tb[b];return(x.Pts-y.Pts)||((x.GF-x.GA)-(y.GF-y.GA))||(x.GF-y.GF)}
+function tcost(d){return Math.round([50,100,200][d]*(1-.1*G.b[0]))}
+function resHtml(){var sc=G.sc||[0,0,0],tp=function(k){return"🎫 "+TN[k]+" "+sc[k]+(k<2&&sc[k]>0?" ("+sc[k]+"/3)":"")};return"🪙 "+G.coins+" &nbsp; ⚡ซิมเร็ว "+G.qc+" &nbsp; 🎫ตั๋วซิมฤดูกาล "+G.tk+"<br>"+tp(0)+" &nbsp; "+tp(1)+" &nbsp; "+tp(2)}
 var RLB=["ธรรมดา","ไม่ธรรมดา","หายาก"],TN=["หมู่บ้าน","ประเทศ","ทวีป"],TD=["สุ่มได้ ธรรมดา หรือ ไม่ธรรมดา และมีโอกาสน้อยที่จะได้ หายาก","สุ่มได้ ไม่ธรรมดา หรือ หายาก","ได้ระดับ หายาก แน่นอน"];
 function setTier(t){G.stier=t;rd()}
-function scout(c){var t=G.stier||0,cost=Math.max(1,2-G.b[1]),T=P();G.sc=G.sc||[0,0,0];
- if(G.sc[t]>0)G.sc[t]--;else if(t==0&&G.sp>=cost)G.sp-=cost;else{G.msg="ไม่มีการ์ดแมวมองระดับ"+TN[t]+(t==0?"และแต้มแมวมองไม่พอ":"");return rd()}
+function scout(c){var t=G.stier||0,T=P();G.sc=G.sc||[0,0,0];
+ if(G.sc[t]>0)G.sc[t]--;else{G.msg="ไม่มีตั๋วแมวมองระดับ"+TN[t];return rd()}
  var rr=t==0?(function(x){return x<.65?0:x<.93?1:2})(Math.random()):t==1?(Math.random()<.6?1:2):2,pool=[];
  SP.forEach(function(x,i){if(x.c!=c||(rr<2&&x.r))return;for(var k=0;k<(rr==2&&x.r?1+G.b[1]:3);k++)pool.push(i)});
  var i=R(pool),f=T.an.filter(function(a){return a.sp==i})[0],x=SP[i];
@@ -367,26 +373,19 @@ function bup(i){var c=80*(G.b[i]+1);if(G.b[i]>=3||G.coins<c)return;G.coins-=c;G.
 function vTm(){var T=P(),RL=roles(T),role={},h='<div class="card"><p>'+G.msg+'</p></div>',sy=syn(T);var rc=rcodes(T);for(var q in rc)role[q]=RNT[rc[q]];
  var row=function(i){var a=T.an[i],s=SP[a.sp];return'<button class="g'+(SEL==i?' on':'')+'" onclick="pick('+i+')"><span class="r1"><span>'+s.e+" "+s.n+" Lv"+a.lv+(canUp(a)?' <span class="upb" role="button" title="อัปเกรด" onclick="event.stopPropagation();up('+i+')">+</span>':"")+" "+(role[i]?'<b>('+role[i]+')</b> ':"")+"ฟิต "+Math.round(a.st)+"% สภาพ "+CA[cond(a)+2]+" "+["❄️","","🔥"][a.f+1]+(a.inj?" 🤕"+a.inj.n+"("+a.inj.l+")":"")+'</span><span class="s mute">'+CONT[s.c]+'</span></span><span class="s r2">เตะ/ความเร็ว '+stt(a,"p")+" | แรง "+stt(a,"s")+" | ทักษะ "+stt(a,"k")+" | ป้องกัน "+stt(a,"g")+"</span></button>"+(SEL==i?vPf(i):"")};
  h+='<div class="card list"><h2>ตัวจริง 7 ตัว (ตำแหน่งเกิดจากลักษณะสัตว์)</h2>'+srt(T,T.lu,rc).map(row).join("")+'<h3 style="margin-top:8px">ตัวสำรอง</h3>'+srt(T,bench(T),rc).map(row).join("")+'<div class="row" style="margin-top:8px"><button onclick="autoLu()">จัดทีมอัตโนมัติ</button></div><p class="s mute">แตะตัวหนึ่ง แล้วแตะอีกตัวเพื่อสลับตัวจริงกับสำรอง (แตะตัวเดิมซ้ำเพื่อยกเลิก) ความฟิตไม่เด้งกลับเต็มหลังแข่ง ตัวที่ลงติดกันหลายนัดจะสภาพแย่ลง ต้องสลับตัวพัก</p>'+'<h3 style="margin-top:8px">ซินเนอร์จี</h3>'+SYN.map(function(y){var es=T.lu.map(function(i){return SP[T.an[i].sp].e}),c=y[0].filter(function(e){return es.indexOf(e)>=0}).length;return'<p class="s" style="margin:2px 0">'+(c>=2?"✅":"⬜")+" <b>"+y[1]+"</b> "+y[0].join("")+" "+c+"/"+y[0].length+" โบนัส: "+fx(y[2])+(c>=2?"":" (ต้องมี 2 ตัวขึ้นไป)")+"</p>"}).join("")+sy.nm.filter(function(n){return n.indexOf("/")<0}).map(function(n){return'<span class="tag">✨ '+n+'</span>'}).join("")+'</div>';
- if(0){var a=T.an[SEL],s=SP[a.sp],n=0,m=0;
-  h+='<div class="card"><h2>'+s.e+" "+s.n+" ("+rar(a)+(s.r?" ธรรมชาติ":"")+')</h2><p>เตะ/ความเร็ว '+stt(a,"p")+' | แรง '+stt(a,"s")+' | ทักษะ '+stt(a,"k")+' | ป้องกัน '+stt(a,"g")+'</p>';
-  if(s.r)h+='<p class="s">สกิลประจำตัว: '+Object.keys(s.ps).map(function(k){return{pr:"กดดัน",df:"ป้องกัน",sh:"ยิง",ps:"ส่งบอล"}[k]+" +"+Math.round(s.ps[k]*100)+"%"}).join(" ")+'</p>';
-  h+='<p>'+a.tr.map(function(t){return'<span class="tag" title="'+TR[t].d+'">'+TR[t].n+'</span> <span class="s mute">'+TR[t].d+'</span>'}).join("<br>")+'</p>';
-  h+='<p class="s">การ์ดสัตว์ '+a.cd+' ใบ <button class="g" onclick="up('+SEL+')"'+(a.lv>=3||a.cd<n?" disabled":"")+'>อัปเกรด Lv'+(a.lv+1)+' (ใช้ '+n+' ใบ)</button></p>';
-  h+='<div class="s"><b>ฝึกที่ทวีป</b> (ใช้ 🎓'+trainCost()+')</div><div class="row">'+CONT.map(function(c,i){return'<button class="g" onclick="train('+SEL+','+i+')">'+c+'</button>'}).join("")+'</div>';
-  var sel=function(k,arr,lab){return'<label>'+lab+' <select onchange="eq('+SEL+',\''+k+'\',this.value)"><option value="-1">-</option>'+arr.map(function(x,j){return'<option value="'+j+'"'+(a.eq[k]==j?" selected":"")+'>'+x+'</option>'}).join("")+'</select></label> '};
-  h+='<div class="s" style="margin-top:8px"><b>อุปกรณ์</b> (ใส่ชิ้นละ 🪙10) ชุดเดียวกัน 2 ชิ้นได้โบนัสเล็ก 3 ชิ้นได้เต็ม</div><div class="row">'+sel("t",SHT,"เสื้อ")+sel("sh",SETS,"ชุดเสื้อ")+sel("pa",SETS,"กางเกง")+sel("so",SETS,"รองเท้า")+'</div><p class="s mute">ค้อนชนะกรรไกร กรรไกรชนะกระดาษ กระดาษชนะค้อน (ได้เปรียบนิดเดียว ไม่ชนะแน่นอน)</p></div>'}
+ 
  return h}
-function vSc(){G.sc=G.sc||[0,0,0];var t=G.stier||0,c=Math.max(1,2-G.b[1]),h='<div class="card"><p>'+G.msg+'</p></div><div class="card"><h2>แมวมอง</h2><p class="s mute">เลือกระดับการ์ดก่อน แล้วเลือกทวีปที่จะส่งแมวมองไป สัตว์ซ้ำจะกลายเป็นการ์ดสัตว์ (ระดับสูงได้การ์ดมากกว่า)</p><div class="row">';
- TN.forEach(function(n,k){h+='<button class="g'+(t==k?" on":"")+'" onclick="setTier('+k+')">แมวมอง'+n+' 🎫 x'+G.sc[k]+'</button>'});
- h+='</div><p class="s">'+TD[t]+(t==0?' (ถ้าไม่มีการ์ด ใช้ 🔍'+c+' แทนได้)':'')+'</p><div class="row">';
+function vSc(){G.sc=G.sc||[0,0,0];var t=G.stier||0,h='<div class="card"><p>'+G.msg+'</p></div><div class="card"><h2>แมวมอง</h2><p class="s mute">ใช้ตั๋วแมวมองเลือกทวีปที่จะส่งไป ตั๋วรวมกันอัตโนมัติ: 3 ใบหมู่บ้าน = 1 ใบประเทศ, 3 ใบประเทศ = 1 ใบทวีป สัตว์ซ้ำจะกลายเป็นการ์ดสัตว์ (ระดับสูงได้การ์ดมากกว่า)</p><div class="row">';
+ TN.forEach(function(n,k){h+='<button class="g'+(t==k?" on":"")+'" onclick="setTier('+k+')">🎫 '+n+' '+G.sc[k]+(k<2&&G.sc[k]>0?' ('+G.sc[k]+'/3)':'')+'</button>'});
+ h+='</div><p class="s">'+TD[t]+'</p><div class="row">';
  CONT.forEach(function(n,i){h+='<button onclick="scout('+i+')">'+n+" "+SP.filter(function(x){return x.c==i}).map(function(x){return x.e}).join("")+'</button>'});
  return h+'</div></div>'}
 function vZo(){var h='<div class="card"><p>'+G.msg+'</p></div><div class="card"><h2>สวนสัตว์ของฉัน</h2>';
  BN.forEach(function(n,i){var c=80*(G.b[i]+1);h+='<p><b>'+n+'</b> เลเวล '+G.b[i]+'/3 <span class="s mute">'+BD[i]+'</span> <button class="g" onclick="bup('+i+')"'+(G.b[i]>=3||G.coins<c?" disabled":"")+'>อัปเกรด 🪙'+c+'</button></p>'});
- return h+'<p class="s mute">รายได้: เหรียญ/แต้มแมวมอง/ทรัพยากรฝึก ได้จากผลแมตช์และจบฤดูกาล</p><button class="g" onclick="if(confirm(\'เริ่มเกมใหม่ทั้งหมด?\')){newGame();save();rd()}">เริ่มเกมใหม่</button></div>'+vSave()}
+ return h+'<p class="s mute">รายได้: เหรียญและตั๋วแมวมอง ได้จากผลแมตช์และจบฤดูกาล</p><button class="g" onclick="if(confirm(\'เริ่มเกมใหม่ทั้งหมด?\')){newGame();save();rd()}">เริ่มเกมใหม่</button></div>'+vSave()}
 function rd(){var vs={lg:["ลีก",vLg],tm:["ทีม",vTm],sc:["แมวมอง",vSc],zo:["สวนสัตว์",vZo],mt:["แมตช์",vMt],tv:["ทีมคู่แข่ง",vTv]};
  $("nav").innerHTML=Object.keys(vs).filter(function(k){return k=="mt"?M:k=="tv"?V=="tv":1}).map(function(k){return'<button class="'+(V==k?"":"g")+'" onclick="'+(M&&k!="mt"?"clearInterval(MI);":"")+'V=\''+k+'\';rd();'+(k=="mt"?"play()":"")+'">'+vs[k][0]+'</button>'}).join("");
- $("res").textContent="🪙 "+G.coins+"   🔍 "+G.sp+"   🎓 "+G.tr+"   ⚡ซิมเร็ว "+G.qc+"   🎫ตั๋วซิมฤดูกาล "+G.tk+"   🔖แมวมอง หมู่บ้าน/ประเทศ/ทวีป "+(G.sc||[0,0,0]).join("/");$("app").innerHTML=vs[V][1]();if(V!="mt")save();if(V=="tm"&&SEL>=0){var pf=$("pf");if(pf)pf.scrollIntoView({block:"nearest",behavior:"smooth"})}}
+ $("res").innerHTML=resHtml();$("app").innerHTML=vs[V][1]();if(V!="mt")save();if(V=="tm"&&SEL>=0){var pf=$("pf");if(pf)pf.scrollIntoView({block:"nearest",behavior:"smooth"})}}
 boot();
 if(!G||!G.L)newGame();
 rd();showLog(0);
